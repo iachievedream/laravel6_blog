@@ -12,9 +12,14 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	return view('welcome');
 });
+
+//adminlte
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+//line login
+Route::get('/line', 'LoginController@pageLine');
+Route::get('/callback/login', 'LoginController@lineLoginCallBack');
