@@ -14,5 +14,18 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+	return $request->user();
+});
+
+Route::post('/register', 'AuthController@register');
+Route::post('/login', 'AuthController@login');
+Route::get('/', 'ArticleapiController@index');
+Route::get('/show/{id}', 'ArticleapiController@show');
+Route::group(['middleware' => 'check.token'], function () {
+	Route::post('/logout', 'AuthController@logout');
+	Route::post('/store', 'ArticleapiController@store');
+	Route::group(['middleware' => 'change.article'], function () {
+		Route::post('/update/{id}', 'ArticleapiController@update');
+		Route::post('/destroy/{id}', 'ArticleapiController@destroy');
+	});
 });
